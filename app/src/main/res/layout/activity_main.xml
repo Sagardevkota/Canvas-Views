@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.appcompat.widget.LinearLayoutCompat
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".MainActivity">
+
+    <com.example.canvaspractice.ChartView
+        android:id="@+id/chartView"
+        android:layout_width="match_parent"
+        android:layout_height="500dp"
+        app:barColor="@color/purple_200"
+        app:numberSpacing="10"
+        app:textColor="@color/black"
+        android:layout_marginTop="50dp"
+        app:pointsColor="@color/purple_700"
+        />
+</androidx.appcompat.widget.LinearLayoutCompat>
