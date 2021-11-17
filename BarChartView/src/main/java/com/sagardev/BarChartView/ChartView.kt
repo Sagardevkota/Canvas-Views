@@ -37,7 +37,7 @@ class ChartView(context: Context, attrs: AttributeSet) : View(context, attrs) {
     )
 
     private val paint = Paint().apply {
-        color = Color.parseColor("#0000")
+        color = Color.BLACK
         strokeWidth = 2f
     }
 

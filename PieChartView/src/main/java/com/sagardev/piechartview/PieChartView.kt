@@ -11,7 +11,7 @@ import kotlin.math.sin
 class PieChartView(context: Context, attributeSet: AttributeSet) : View(context, attributeSet) {
 
     private val paint: Paint = Paint().apply {
-        color = Color.parseColor("#0000")
+        color = Color.BLACK
         strokeWidth = 5f
         isAntiAlias = true
     }
@@ -33,7 +33,7 @@ class PieChartView(context: Context, attributeSet: AttributeSet) : View(context,
         a.recycle()
     }
 
-    private var points = intArrayOf(20, 30, 40, 50, 80, 10, 21)
+    private var points = intArrayOf(20, 30, 40, 50, 80, 40, 21)
 
     fun setPoints(points:IntArray){
         this.points = points
@@ -87,7 +87,7 @@ class PieChartView(context: Context, attributeSet: AttributeSet) : View(context,
                 triangleCenterX,
                 triangleCenterY,
                 paint.apply {
-                    strokeWidth = 1f
+                    reset()
                     textSize = fontSize!!
                     color = textColor!!
                 })
