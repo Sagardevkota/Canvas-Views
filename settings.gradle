@@ -14,3 +14,6 @@ dependencyResolutionManagement {
 }
 rootProject.name = "CanvasPractice"
 include ':app'
+include ':ClockView'
+include ':BarChartView'
+include ':PieChartView'

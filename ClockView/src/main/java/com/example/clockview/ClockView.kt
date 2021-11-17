@@ -1,4 +1,4 @@
-package com.example.canvaspractice
+package com.example.clockview
 
 import android.content.Context
 import android.graphics.Canvas
@@ -19,15 +19,42 @@ class ClockView(context: Context,attributeSet: AttributeSet): View(context,attri
     private var fontSize = 0
     private val numeralSpacing = 0
     private var handTruncation = 0
-    private  var hourHandTruncation:kotlin.Int = 0
+    private  var hourHandTruncation:Int = 0
     private var radius = 0
-    private var isInit = false;
+    private var isInit = false
     private var padding = 0
 
     private val numbers = intArrayOf(1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12)
     private val rect: Rect = Rect()
 
+    init {
+        initClockView(context,attributeSet)
+    }
+
+    private var textSize:Int?=null
+    private var textColor:Int?=null
+    private var circleColor:Int?=null
+    private var hourHandColor:Int?=null
+    private var minuteHandColor:Int?=null
+    private var secondHandColor:Int?=null
+    private var centerColor:Int?=null
+
+    private fun initClockView(context: Context,attributeSet: AttributeSet) {
+        val a = context.obtainStyledAttributes(attributeSet, R.styleable.ClockView)
+        textSize = a.getInt(R.styleable.ClockView_textSize, 25)
+        textColor = a.getInt(R.styleable.ClockView_textColor, R.color.black)
+        circleColor = a.getInt(R.styleable.ClockView_circleColor, R.color.black)
+        hourHandColor = a.getInt(R.styleable.ClockView_hourHandColor, R.color.black)
+        minuteHandColor = a.getInt(R.styleable.ClockView_minuteHandColor, R.color.black)
+        secondHandColor = a.getInt(R.styleable.ClockView_secondHandColor, R.color.black)
+        centerColor = a.getInt(R.styleable.ClockView_centerColor, R.color.black)
+
+        a.recycle()
+    }
+
+
     private fun initClock() {
+
         padding = numeralSpacing + 50
         fontSize = TypedValue.applyDimension(
             TypedValue.COMPLEX_UNIT_SP, 13f,
@@ -47,7 +74,6 @@ class ClockView(context: Context,attributeSet: AttributeSet): View(context,attri
         if (!isInit)
             initClock()
 
-        canvas?.drawColor(Color.BLACK)
         drawCircle(canvas)
         drawCenter(canvas)
         drawNumbers(canvas)
@@ -56,9 +82,19 @@ class ClockView(context: Context,attributeSet: AttributeSet): View(context,attri
         invalidate()
     }
 
-    private fun drawHand(canvas: Canvas?, loc: Int, isHour: Boolean) {
+    private fun drawHand(canvas: Canvas?, loc: Int, isHour: Boolean,isMinute:Boolean) {
         val angle = Math.PI * loc / 30 - Math.PI / 2
-        val handRadius: Int = if (isHour) radius - handTruncation - hourHandTruncation else radius - handTruncation
+        val handRadius: Int
+        if (isHour){
+            handRadius = radius - handTruncation - hourHandTruncation
+            paint.apply { color= hourHandColor!! }
+        }
+        else{
+            handRadius = radius - handTruncation - hourHandTruncation
+            if (isMinute)
+            paint.apply { color= minuteHandColor!! }
+            else paint.apply { color = secondHandColor!! }
+        }
         canvas?.drawLine(
              (width / 2).toFloat(), (height / 2).toFloat(),
             (width / 2 + cos(angle) * handRadius).toFloat(),
@@ -67,18 +103,18 @@ class ClockView(context: Context,attributeSet: AttributeSet): View(context,attri
         )
     }
     private fun drawHands(canvas: Canvas?) {
-        paint.color = resources.getColor(R.color.white)
+        paint.color = Color.parseColor("#ffffff")
         val c: Calendar = Calendar.getInstance()
         var hour: Int = c.get(Calendar.HOUR_OF_DAY)
         hour = if (hour > 12) hour - 12 else hour
-        drawHand(canvas, ((hour + c.get(Calendar.MINUTE) / 60) * 5f).toInt(), true)
-        drawHand(canvas, c.get(Calendar.MINUTE), false)
-        drawHand(canvas, c.get(Calendar.SECOND), false)
+        drawHand(canvas, ((hour + c.get(Calendar.MINUTE) / 60) * 5f).toInt(), true,false)
+        drawHand(canvas, c.get(Calendar.MINUTE), false,true)
+        drawHand(canvas, c.get(Calendar.SECOND), false,false)
     }
 
     private fun drawNumbers(canvas: Canvas?) {
         paint.textSize = fontSize.toFloat()
-        paint.color = resources.getColor(R.color.purple_200)
+        paint.color = textColor!!
 
         for (number in numbers) {
             val tmp = number.toString()
@@ -87,7 +123,7 @@ class ClockView(context: Context,attributeSet: AttributeSet): View(context,attri
             //12hr = 2pi i.e 1hr = pi/6 (30deg)
             // 360deg = 2pi rad so 1 deg = 1/180pi radian
             //30deg = pi/6 and 1 in clock is 30deg 2 in clock is 60 deg so on
-            val angle = Math.PI / 6 * number;
+            val angle = Math.PI / 6 * number
             //width/2 is x coordinate of center + cos(deg) * radius (b/h) - rectangle of number to prevent overlap of hands
 
             /*
@@ -118,7 +154,8 @@ class ClockView(context: Context,attributeSet: AttributeSet): View(context,attri
 
     private fun drawCenter(canvas: Canvas?) {
         paint.style = Paint.Style.FILL
-        canvas?.drawCircle((width / 2).toFloat(), (height / 2).toFloat(), 12f, paint);
+        paint.color = centerColor!!
+        canvas?.drawCircle((width / 2).toFloat(), (height / 2).toFloat(), 12f, paint)
     }
 
     private fun drawCircle(canvas:Canvas?){
@@ -127,8 +164,8 @@ class ClockView(context: Context,attributeSet: AttributeSet): View(context,attri
         val radius = min / 2 - padding
 
         paint.apply {
-            reset();
-            color = resources.getColor(android.R.color.holo_red_light);
+            reset()
+            color = circleColor!!
             strokeWidth = 5f
             style = Paint.Style.STROKE
             isAntiAlias = true
@@ -136,7 +173,7 @@ class ClockView(context: Context,attributeSet: AttributeSet): View(context,attri
 
 
         canvas?.drawCircle((width / 2).toFloat(),
-            (height / 2).toFloat(), (radius + padding - 10).toFloat(), paint);
+            (height / 2).toFloat(), (radius + padding - 10).toFloat(), paint)
 
     }
 }

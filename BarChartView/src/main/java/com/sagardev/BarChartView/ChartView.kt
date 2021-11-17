@@ -1,7 +1,8 @@
-package com.example.canvaspractice
+package com.sagardev.BarChartView
 
 import android.content.Context
 import android.graphics.Canvas
+import android.graphics.Color
 import android.graphics.Paint
 import android.util.AttributeSet
 import android.view.View
@@ -36,7 +37,7 @@ class ChartView(context: Context, attrs: AttributeSet) : View(context, attrs) {
     )
 
     private val paint = Paint().apply {
-        color = resources.getColor(R.color.black)
+        color = Color.parseColor("#0000")
         strokeWidth = 2f
     }
 

@@ -1,11 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-
     <attr name="barColor" format="color" />
     <attr name="textColor" format="color" />
     <attr name="pointsColor" format="color" />
     <attr name="numberSpacing" format="integer" />
-
 
     <declare-styleable name="ChartView">
         <attr name="barColor"/>

@@ -8,14 +8,25 @@
     android:orientation="vertical"
     tools:context=".MainActivity">
 
-    <com.example.canvaspractice.ChartView
-        android:id="@+id/chartView"
-        android:layout_width="match_parent"
-        android:layout_height="500dp"
-        app:barColor="@color/purple_200"
-        app:numberSpacing="10"
-        app:textColor="@color/black"
-        android:layout_marginTop="50dp"
-        app:pointsColor="@color/purple_700"
-        />
+   <com.sagardev.piechartview.PieChartView
+       android:id="@+id/pieChartView"
+       android:layout_width="match_parent"
+       android:layout_height="match_parent"
+       app:textColor="@color/white"
+       app:circleColor="@color/teal_700"
+       app:fontSize="10sp"
+       app:lineColor="@color/white"
+       android:background="@color/black"
+       />
+
+<!--   <com.example.clockview.ClockView-->
+<!--       android:layout_width="match_parent"-->
+<!--       android:layout_height="match_parent"-->
+<!--       app:circleColor="@color/purple_700"-->
+<!--       app:textColor="@color/black"-->
+<!--       app:hourHandColor="@color/purple_200"-->
+<!--       app:minuteHandColor="@color/teal_200"-->
+<!--       app:centerColor="@color/teal_700"-->
+
+<!--      />-->
 </androidx.appcompat.widget.LinearLayoutCompat>
